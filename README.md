@@ -173,8 +173,6 @@ Seed data includes:
 * No license has been defined yet.
 * Built for educational purposes.
 
-```
-
 --- 
 
 ### <p align="right">*[thaihoaho](https://github.com/thaihoaho)*</p>
