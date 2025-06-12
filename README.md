@@ -1,22 +1,25 @@
-
-# 📝 JustNote
-
-**JustNote** is a simple note-taking backend project built with **Node.js** and **ExpressJS** as a personal learning exercise. It provides a RESTful API to manage todos, stored in a local **SQLite** database.
-
-> Frontend will be developed using **React**, and future versions will support **user authentication** and **multi-user functionality**.
+Sure! Here's a more readable and visually engaging version of your `README.md` with improved structure and spacing to make it less boring while keeping it clean and professional:
 
 ---
 
-## 📁 Project Structure
+# 📝 JustNote
+
+**JustNote** is a lightweight backend app for managing todos, built with **Node.js**, **Express**, and **SQLite**.
+
+> 🚧 Frontend coming soon (React). Future plans: user accounts, multi-user support, and auth.
+
+---
+
+## 📁 Folder Structure
 
 ```
-todo-app/
+justnote/
 ├── app.js
 ├── db.js
 ├── init.js
+├── todos.db
 ├── package.json
 ├── README.md
-├── todos.db
 ├── v2.0.md
 ├── bin/
 │   └── www
@@ -28,18 +31,18 @@ todo-app/
 │       └── style.css
 └── routes/
     └── todo.js
-
-````
+```
 
 ---
 
-## 🚀 Setup Instructions
+## ⚙️ Getting Started
 
-1. **Clone the repository**  
+1. **Clone the repo**
+
    ```bash
    git clone https://github.com/thaihoaho/justnote.git
    cd justnote
-    ```
+   ```
 
 2. **Install dependencies**
 
@@ -48,131 +51,142 @@ todo-app/
    ```
 
 3. **Initialize the database**
-   The app uses a local `todos.db` (SQLite). You can recreate and seed it using:
 
    ```bash
    node init.js
    ```
-   Note: this will drop the todos table if there is any.
 
-4. **Run the server**
+   > Recreates `todos` and `todo_history` tables.
+
+4. **Start the app**
 
    ```bash
    npm start
    ```
 
-   By default, the app listens on port `3000`.
+   > Runs on `http://localhost:3000`
 
 ---
 
-## 🛠 Dependencies
+## 📦 Dependencies
 
-* [`express`](https://www.npmjs.com/package/express) – main web framework
-* [`cookie-parser`](https://www.npmjs.com/package/cookie-parser) – parse cookies
-* [`morgan`](https://www.npmjs.com/package/morgan) – HTTP request logger
-* [`debug`](https://www.npmjs.com/package/debug) – debugging tool
-
----
-
-## 🧪 API Usage
-
-Base URL: `http://localhost:3000/todo`
-
-### `GET /todo`
-
-Fetch all todos with optional filters.
-
-**Query Parameters:**
-
-* `done=true|false`
-* `search=keyword` (accent-insensitive)
-* `sortBy=createdAt|updatedAt`
-* `order=asc|desc`
-* `limit=number`
-* `offset=number`
+* `express` – HTTP server
+* `cookie-parser` – Cookie handling
+* `morgan` – Request logging
+* `debug` – Debug output
 
 ---
 
-### `GET /todo/count`
+## 📌 API Overview
 
-Returns the total number of todos, with optional filters (`done`, `search`).
+All routes are under base URL:
+**`http://localhost:3000/todos`**
 
 ---
 
-### `POST /todo`
+### 📖 Read APIs
 
-Create a new todo.
+| Method | Endpoint             | Description                                 |
+| ------ | -------------------- | ------------------------------------------- |
+| GET    | `/todos`             | List todos (filter, search, sort, paginate) |
+| GET    | `/todos/:id`         | Get todo by ID                              |
+| GET    | `/todos/count`       | Get total count (with filters)              |
+| GET    | `/todos/export/json` | Export all todos as JSON                    |
+| GET    | `/todos/export/csv`  | Export all todos as CSV                     |
 
-**Body:**
+---
 
-```json
-{
-  "title": "Learn Express"
-}
+### ➕ Create & ✏️ Update APIs
+
+| Method | Endpoint                 | Description                          |
+| ------ | ------------------------ | ------------------------------------ |
+| POST   | `/todos`                 | Create a new todo (`{ title }`)      |
+| PATCH  | `/todos/:id`             | Update fields of a todo              |
+| PATCH  | `/todos/:id/toggle`      | Toggle `done` status                 |
+| PATCH  | `/todos/:id/soft-delete` | Soft delete                          |
+| PATCH  | `/todos/:id/restore`     | Restore soft-deleted todo            |
+| PATCH  | `/todos/:id/undo`        | Undo previous version (from history) |
+| PATCH  | `/todos/mark-all-done`   | Mark all todos as done               |
+| PATCH  | `/todos/mark-all-undone` | Mark all todos as not done           |
+
+---
+
+### ❌ Delete APIs
+
+| Method | Endpoint                 | Description                |
+| ------ | ------------------------ | -------------------------- |
+| DELETE | `/todos/:id`             | Permanently delete a todo  |
+| DELETE | `/todos/delete-all-done` | Delete all completed todos |
+
+---
+
+## 🧠 Filters & Query Params for `GET /todos`
+
+You can filter, sort, and paginate like this:
+
+```
+/todos?done=1&search=home&priority=High&from=2024-01-01&to=2025-01-01&sortBy=createdAt&order=desc&limit=10&offset=0
 ```
 
----
+### Supported filters:
 
-### `PATCH /todo/:id`
+* `done` (0 or 1)
+* `search` (diacritic-insensitive)
+* `priority`, `tags`, `description`
+* `softDeleted` (0 or 1)
+* `from`, `to`, `date` (ISO format)
 
-Update a todo's `title`, `done`, or both.
+### Sorting and pagination:
 
-**Body (any subset):**
-
-```json
-{
-  "title": "New title",
-  "done": true
-}
-```
-
----
-
-### `PATCH /todo/mark-all-done`
-
-Mark all incomplete todos as done.
+* `sortBy`: any column (e.g. `createdAt`, `updatedAt`, `priority`)
+* `order`: `asc` or `desc`
+* `limit`, `offset`: for pagination
 
 ---
 
-### `DELETE /todo/:id`
+## 🗃️ Database Schema
 
-Delete a specific todo by its `id`.
+### `todos` Table
 
----
-
-### `DELETE /todo/delete-all-done`
-
-Delete all todos marked as done.
-
----
-
-## 📦 Database Schema
-
-The `todos` table has the following structure:
-
-| Field        | Type    | Description                 |
-| ------------ | ------- | --------------------------- |
-| `id`         | INTEGER | Primary key, auto-increment |
-| `title`      | TEXT    | Todo title (required)       |
-| `titleAscii` | TEXT    | Normalized for searching    |
-| `done`       | INTEGER | 0 or 1 (default: 0)         |
-| `createdAt`  | TEXT    | ISO timestamp               |
-| `updatedAt`  | TEXT    | ISO timestamp               |
-
-Seed data includes:
-
-* Đi chợ
-* Học Express
-* Dọn dẹp
+| Column        | Type    | Description         |
+| ------------- | ------- | ------------------- |
+| `id`          | INTEGER | Primary key         |
+| `title`       | TEXT    | Required            |
+| `titleAscii`  | TEXT    | For searching       |
+| `done`        | INTEGER | 0 = false, 1 = true |
+| `priority`    | TEXT    | Low / Medium / High |
+| `tags`        | TEXT    | Comma-separated     |
+| `description` | TEXT    | Optional            |
+| `softDeleted` | INTEGER | 0 or 1              |
+| `createdAt`   | TEXT    | ISO string          |
+| `updatedAt`   | TEXT    | ISO string          |
 
 ---
 
-## 📌 Notes
+### `todo_history` Table
 
-* No `.env` file is needed for now.
-* No license has been defined yet.
-* Built for educational purposes.
+Used for undo functionality.
 
---- 
+| Column        | Type    | Description               |
+| ------------- | ------- | ------------------------- |
+| `id`          | INTEGER | Primary key               |
+| `todo_id`     | INTEGER | References `todos(id)`    |
+| `title`       | TEXT    | Snapshot title            |
+| `titleAscii`  | TEXT    | Snapshot normalized title |
+| `done`        | INTEGER | Snapshot done status      |
+| `priority`    | TEXT    | Snapshot priority         |
+| `tags`        | TEXT    | Snapshot tags             |
+| `description` | TEXT    | Snapshot description      |
+| `updatedAt`   | TEXT    | Timestamp of the snapshot |
 
-### <p align="right">*[thaihoaho](https://github.com/thaihoaho)*</p>
+---
+
+## 📝 Notes
+
+* Works without `.env`
+* Local SQLite DB (`todos.db`)
+* Designed for **learning**, not production
+
+---
+
+<i><p align="right">💡<a href="https://github.com/thaihoaho">thaihoaho</a></p></i>
