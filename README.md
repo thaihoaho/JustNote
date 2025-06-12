@@ -1,6 +1,3 @@
-Sure! Here's a more readable and visually engaging version of your `README.md` with improved structure and spacing to make it less boring while keeping it clean and professional:
-
----
 
 # 📝 JustNote
 
