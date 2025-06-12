@@ -1,6 +1,3 @@
-Here’s the **updated `CHANGELOG.md`** with your planned `1.2.0` features correctly added under `[Unreleased]` using the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format:
-
----
 
 # Changelog
 
