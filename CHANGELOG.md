@@ -7,14 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
-- Filter todos by `createdAt` or `updatedAt` using `from` and `to` query parameters.
-- Toggle endpoint: `PATCH /todos/:id/toggle` to quickly toggle the `done` status.
-- `priority` field (Low, Medium, High) for sorting/filtering by importance.
-- `tags` field to group todos by context (e.g., “Work”, “Study”).
-- `description` field and `GET /todos/:id` endpoint to view full todo details.
-- Soft delete feature (`deleted` flag) with potential for restore.
-- Export functionality (JSON or CSV) for user backups.
-- Undo feature for destructive actions like delete or mark as done.
+- _Nothing yet._
 
 ### Changed
 - _Nothing yet._
@@ -27,6 +20,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 - _Nothing yet._
+
+---
+
+## [1.1.0] – 2025-06-12
+
+### Added
+- Filter todos by `createdAt` or `updatedAt` using `from` and `to` query parameters.
+- Toggle endpoint: `PATCH /todos/:id/toggle` to quickly toggle the `done` status.
+- `priority` field (Low, Medium, High) for sorting/filtering by importance.
+- `tags` field to group todos by context (e.g., “Work”, “Study”).
+- `description` field and `GET /todos/:id` endpoint to view full todo details.
+- Soft delete feature (`deleted` flag) with potential for restore.
+- Export functionality (JSON or CSV) for user backups.
+- Undo feature for destructive actions like delete or mark as done.
+- Introduced `todo_history` table to support undo functionality and track changes.
+
+### Changed
+- Moved database creation logic entirely into `init.js` for better initialization flow.
+- Expanded initial seed data in `init.js` to provide more sample todos.
 
 ---
 
