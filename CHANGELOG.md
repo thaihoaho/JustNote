@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Filter todos by `createdAt` or `updatedAt` using `from` and `to` query parameters.
 - Toggle endpoint: `PATCH /todos/:id/toggle` to quickly toggle the `done` status.
 - `priority` field (Low, Medium, High) for sorting/filtering by importance.
-- `tags` or `category` field to group todos by context (e.g., “Work”, “Study”).
+- `tags` field to group todos by context (e.g., “Work”, “Study”).
 - `description` field and `GET /todos/:id` endpoint to view full todo details.
 - Soft delete feature (`deleted` flag) with potential for restore.
 - Export functionality (JSON or CSV) for user backups.
